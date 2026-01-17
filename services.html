@@ -1,0 +1,1095 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Services | NovaVista Technologies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-red: #c62828;
+            --dark-red: #8e0000;
+            --light-red: #ff5f52;
+            --dark-bg: #121212;
+            --medium-bg: #1e1e1e;
+            --light-bg: #2a2a2a;
+            --text-light: #f5f5f5;
+            --text-gray: #b0b0b0;
+            --accent-orange: #ff8a00;
+            --accent-yellow: #ffc400;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text-light);
+            background-color: var(--dark-bg);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background-color: rgba(18, 18, 18, 0.95);
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(198, 40, 40, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            padding: 15px 0;
+            background-color: rgba(18, 18, 18, 0.98);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            color: var(--primary-red);
+            font-size: 28px;
+        }
+        
+        .logo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary-red), var(--accent-orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            padding: 8px 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--primary-red);
+        }
+        
+        nav a.active {
+            color: var(--primary-red);
+        }
+        
+        nav a.active:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary-red), var(--accent-orange));
+            bottom: -5px;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Page Header */
+        .page-header {
+            padding: 160px 0 80px;
+            background: linear-gradient(135deg, rgba(18, 18, 18, 0.9) 0%, rgba(30, 30, 30, 0.8) 100%), 
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M0,50 Q25,25 50,50 T100,50" stroke="%23c62828" stroke-width="0.5" fill="none" opacity="0.1"/></svg>');
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        .page-header:before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 150px;
+            background: linear-gradient(90deg, var(--primary-red) 0%, var(--accent-orange) 50%, var(--accent-yellow) 100%);
+            bottom: 0;
+            left: -50%;
+            opacity: 0.1;
+            filter: blur(20px);
+        }
+        
+        .page-header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .page-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .page-header h1 span {
+            background: linear-gradient(to right, var(--primary-red), var(--accent-orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Section Styling */
+        .section {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+        
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-red), var(--accent-orange));
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .section-title p {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 20px auto 0;
+        }
+        
+        /* Services Overview */
+        .services-overview {
+            background-color: var(--medium-bg);
+        }
+        
+        .services-intro {
+            max-width: 800px;
+            margin: 0 auto 60px;
+            text-align: center;
+            font-size: 1.1rem;
+            color: var(--text-gray);
+        }
+        
+        /* Main Services */
+        .main-services {
+            background-color: var(--dark-bg);
+        }
+        
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 40px;
+        }
+        
+        .service-card {
+            background-color: var(--light-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+        }
+        
+        .service-card:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary-red), var(--accent-orange));
+        }
+        
+        .service-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(198, 40, 40, 0.15);
+            border-color: rgba(198, 40, 40, 0.2);
+        }
+        
+        .service-header {
+            padding: 40px 30px 30px;
+            position: relative;
+        }
+        
+        .service-icon {
+            font-size: 50px;
+            margin-bottom: 25px;
+            color: var(--primary-red);
+            height: 80px;
+            width: 80px;
+            line-height: 80px;
+            border-radius: 50%;
+            background: rgba(198, 40, 40, 0.1);
+        }
+        
+        .service-header h3 {
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+        }
+        
+        .service-header p {
+            color: var(--text-gray);
+        }
+        
+        .service-details {
+            padding: 0 30px 40px;
+        }
+        
+        .service-features {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+        
+        .service-features li {
+            margin-bottom: 12px;
+            padding-left: 25px;
+            position: relative;
+            color: var(--text-gray);
+        }
+        
+        .service-features li:before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: var(--primary-red);
+            font-weight: bold;
+        }
+        
+        .service-cta {
+            display: inline-block;
+            background: transparent;
+            color: var(--primary-red);
+            padding: 12px 25px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            border: 2px solid var(--primary-red);
+        }
+        
+        .service-cta:hover {
+            background: rgba(198, 40, 40, 0.1);
+            padding: 12px 30px;
+        }
+        
+        /* Service Process */
+        .service-process {
+            background-color: var(--medium-bg);
+        }
+        
+        .process-steps {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            margin-top: 60px;
+            position: relative;
+        }
+        
+        .process-steps:before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(to right, var(--primary-red), var(--accent-orange));
+            opacity: 0.3;
+        }
+        
+        .process-step {
+            flex: 1;
+            min-width: 200px;
+            max-width: 250px;
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .step-number {
+            width: 80px;
+            height: 80px;
+            background: linear-gradient(to right, var(--primary-red), var(--dark-red));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: 700;
+            margin: 0 auto 25px;
+            box-shadow: 0 5px 15px rgba(198, 40, 40, 0.3);
+        }
+        
+        .step-content h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+        
+        .step-content p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+        
+        /* Industries We Serve */
+        .industries {
+            background-color: var(--dark-bg);
+        }
+        
+        .industries-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-top: 60px;
+        }
+        
+        .industry-card {
+            background-color: var(--light-bg);
+            border-radius: 10px;
+            padding: 35px 25px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .industry-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 10px 25px rgba(198, 40, 40, 0.1);
+            border-color: rgba(198, 40, 40, 0.2);
+        }
+        
+        .industry-icon {
+            font-size: 40px;
+            margin-bottom: 20px;
+            color: var(--primary-red);
+        }
+        
+        .industry-card h3 {
+            font-size: 1.3rem;
+            margin-bottom: 15px;
+        }
+        
+        .industry-card p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+        
+        /* CTA Section */
+        .cta-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, rgba(198, 40, 40, 0.05) 0%, rgba(142, 0, 0, 0.05) 100%);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-section:before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(198, 40, 40, 0.1) 0%, transparent 70%);
+            top: -150px;
+            right: -150px;
+        }
+        
+        .cta-section:after {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 138, 0, 0.1) 0%, transparent 70%);
+            bottom: -150px;
+            left: -150px;
+        }
+        
+        .cta-content {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .cta-content h2 {
+            font-size: 2.5rem;
+            margin-bottom: 25px;
+        }
+        
+        .cta-content p {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            margin-bottom: 40px;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary-red), var(--dark-red));
+            color: white;
+            padding: 16px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(198, 40, 40, 0.3);
+            border: none;
+            cursor: pointer;
+            margin: 10px;
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(198, 40, 40, 0.4);
+            background: linear-gradient(to right, var(--light-red), var(--primary-red));
+        }
+        
+        .cta-button.secondary {
+            background: transparent;
+            border: 2px solid var(--primary-red);
+            box-shadow: none;
+        }
+        
+        .cta-button.secondary:hover {
+            background: rgba(198, 40, 40, 0.1);
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-bg);
+            padding: 70px 0 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: var(--primary-red);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-red);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--light-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-icon:hover {
+            background-color: var(--primary-red);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .page-header h1 {
+                font-size: 3rem;
+            }
+            
+            .process-steps:before {
+                display: none;
+            }
+            
+            .process-steps {
+                gap: 30px;
+            }
+            
+            .process-step {
+                min-width: 150px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--dark-bg);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+                gap: 0;
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            nav ul li {
+                margin: 10px 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .page-header {
+                padding: 140px 0 60px;
+            }
+            
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section {
+                padding: 80px 0;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+            
+            .service-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .process-steps {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .process-step {
+                max-width: 300px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .service-header, .service-details {
+                padding: 30px 20px;
+            }
+            
+            .cta-content h2 {
+                font-size: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header id="header">
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <div class="logo-text">NovaVista Technologies</div>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html" class="active">Services</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <h1>Our <span>Services</span></h1>
+                <p>Comprehensive technology solutions designed to ignite your digital transformation and drive measurable business results.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Overview -->
+    <section class="section services-overview">
+        <div class="container">
+            <div class="section-title">
+                <h2>Comprehensive Technology Solutions</h2>
+                <p>We provide end-to-end services that transform businesses and drive innovation</p>
+            </div>
+            
+            <div class="services-intro">
+                <p>At NovaVista Technologies, we offer a complete suite of services designed to address the unique challenges of the digital age. Our solutions are built on a foundation of technical expertise, strategic insight, and a deep understanding of emerging technologies.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Services -->
+    <section class="section main-services">
+        <div class="container">
+            <div class="service-grid">
+                <!-- Service 1 -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-cloud"></i>
+                        </div>
+                        <h3>Cloud Solutions & Infrastructure</h3>
+                        <p>Scalable, secure cloud infrastructure to support your digital transformation journey</p>
+                    </div>
+                    <div class="service-details">
+                        <ul class="service-features">
+                            <li>Cloud migration and optimization</li>
+                            <li>Hybrid and multi-cloud strategies</li>
+                            <li>Infrastructure as a Service (IaaS)</li>
+                            <li>Platform as a Service (PaaS)</li>
+                            <li>Cloud security and compliance</li>
+                            <li>24/7 monitoring and management</li>
+                        </ul>
+                        <a href="#cloud" class="service-cta">Learn More</a>
+                    </div>
+                </div>
+                
+                <!-- Service 2 -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-shield-alt"></i>
+                        </div>
+                        <h3>Cybersecurity & Risk Management</h3>
+                        <p>Advanced security solutions to protect your digital assets and ensure compliance</p>
+                    </div>
+                    <div class="service-details">
+                        <ul class="service-features">
+                            <li>Threat detection and prevention</li>
+                            <li>Vulnerability assessment</li>
+                            <li>Security architecture design</li>
+                            <li>Incident response planning</li>
+                            <li>Compliance and audit support</li>
+                            <li>Security awareness training</li>
+                        </ul>
+                        <a href="#cybersecurity" class="service-cta">Learn More</a>
+                    </div>
+                </div>
+                
+                <!-- Service 3 -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Data Analytics & Business Intelligence</h3>
+                        <p>Transform raw data into actionable insights with powerful analytics platforms</p>
+                    </div>
+                    <div class="service-details">
+                        <ul class="service-features">
+                            <li>Data strategy and architecture</li>
+                            <li>Predictive analytics and modeling</li>
+                            <li>Real-time dashboard development</li>
+                            <li>Machine learning implementation</li>
+                            <li>Data visualization and reporting</li>
+                            <li>Data governance and quality</li>
+                        </ul>
+                        <a href="#analytics" class="service-cta">Learn More</a>
+                    </div>
+                </div>
+                
+                <!-- Service 4 -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <h3>Digital Transformation & Strategy</h3>
+                        <p>Comprehensive strategies to modernize operations and drive digital innovation</p>
+                    </div>
+                    <div class="service-details">
+                        <ul class="service-features">
+                            <li>Digital maturity assessment</li>
+                            <li>Technology roadmap development</li>
+                            <li>Change management and adoption</li>
+                            <li>Process automation and optimization</li>
+                            <li>Innovation labs and prototyping</li>
+                            <li>Digital workforce enablement</li>
+                        </ul>
+                        <a href="#digital" class="service-cta">Learn More</a>
+                    </div>
+                </div>
+                
+                <!-- Service 5 -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-code"></i>
+                        </div>
+                        <h3>Custom Software Development</h3>
+                        <p>Tailored software solutions designed to address your unique business challenges</p>
+                    </div>
+                    <div class="service-details">
+                        <ul class="service-features">
+                            <li>Enterprise application development</li>
+                            <li>Web and mobile app development</li>
+                            <li>API development and integration</li>
+                            <li>Legacy system modernization</li>
+                            <li>Agile development methodology</li>
+                            <li>DevOps and continuous delivery</li>
+                        </ul>
+                        <a href="#software" class="service-cta">Learn More</a>
+                    </div>
+                </div>
+                
+                <!-- Service 6 -->
+                <div class="service-card">
+                    <div class="service-header">
+                        <div class="service-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h3>Managed IT Services</h3>
+                        <p>Comprehensive IT management to ensure optimal performance and reliability</p>
+                    </div>
+                    <div class="service-details">
+                        <ul class="service-features">
+                            <li>24/7 help desk and support</li>
+                            <li>Network monitoring and management</li>
+                            <li>Proactive maintenance and updates</li>
+                            <li>Disaster recovery planning</li>
+                            <li>Vendor management</li>
+                            <li>IT cost optimization</li>
+                        </ul>
+                        <a href="#managed" class="service-cta">Learn More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Service Process -->
+    <section class="section service-process">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Service Methodology</h2>
+                <p>A proven process that ensures successful implementation and maximum ROI</p>
+            </div>
+            
+            <div class="process-steps">
+                <div class="process-step">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Discover & Analyze</h3>
+                        <p>We begin by understanding your business objectives, challenges, and technical environment through comprehensive analysis.</p>
+                    </div>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Plan & Design</h3>
+                        <p>Our team develops a customized strategy and solution architecture tailored to your specific needs and goals.</p>
+                    </div>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Implement & Integrate</h3>
+                        <p>We execute the plan with precision, ensuring seamless integration with your existing systems and minimal disruption.</p>
+                    </div>
+                </div>
+                
+                <div class="process-step">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Optimize & Support</h3>
+                        <p>We provide ongoing support, monitoring, and optimization to ensure continued success and maximum value.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Industries We Serve -->
+    <section class="section industries">
+        <div class="container">
+            <div class="section-title">
+                <h2>Industries We Serve</h2>
+                <p>Specialized solutions for diverse industry challenges</p>
+            </div>
+            
+            <div class="industries-grid">
+                <div class="industry-card">
+                    <div class="industry-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <h3>Financial Services</h3>
+                    <p>Secure, compliant solutions for banking, insurance, and financial institutions.</p>
+                </div>
+                
+                <div class="industry-card">
+                    <div class="industry-icon">
+                        <i class="fas fa-heartbeat"></i>
+                    </div>
+                    <h3>Healthcare</h3>
+                    <p>HIPAA-compliant systems for providers, payers, and health tech companies.</p>
+                </div>
+                
+                <div class="industry-card">
+                    <div class="industry-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3>Retail & E-commerce</h3>
+                    <p>Omnichannel solutions that enhance customer experience and drive sales.</p>
+                </div>
+                
+                <div class="industry-card">
+                    <div class="industry-icon">
+                        <i class="fas fa-industry"></i>
+                    </div>
+                    <h3>Manufacturing</h3>
+                    <p>Industry 4.0 solutions for smart factories and supply chain optimization.</p>
+                </div>
+                
+                <div class="industry-card">
+                    <div class="industry-icon">
+                        <i class="fas fa-graduation-cap"></i>
+                    </div>
+                    <h3>Education</h3>
+                    <p>Digital learning platforms and campus technology modernization.</p>
+                </div>
+                
+                <div class="industry-card">
+                    <div class="industry-icon">
+                        <i class="fas fa-truck"></i>
+                    </div>
+                    <h3>Logistics</h3>
+                    <p>Supply chain visibility, tracking, and optimization solutions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Ready to Transform Your Business?</h2>
+                <p>Contact us today to discuss how our services can address your specific challenges and drive your digital transformation forward.</p>
+                <div class="cta-buttons">
+                    <a href="contact.html" class="cta-button">Get a Free Consultation</a>
+                    <a href="contact.html" class="cta-button secondary">Request a Proposal</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>NovaVista Technologies</h3>
+                    <p>Igniting digital transformation with innovative technology solutions that drive business growth and efficiency.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Our Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="#cloud">Cloud Solutions</a></li>
+                        <li><a href="#cybersecurity">Cybersecurity</a></li>
+                        <li><a href="#analytics">Data Analytics</a></li>
+                        <li><a href="#digital">Digital Transformation</a></li>
+                        <li><a href="#software">Software Development</a></li>
+                        <li><a href="#managed">Managed IT Services</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt" style="color: var(--primary-red); margin-right: 8px;"></i> 123 Innovation Drive, Tech Valley, CA</li>
+                        <li><i class="fas fa-phone" style="color: var(--primary-red); margin-right: 8px;"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope" style="color: var(--primary-red); margin-right: 8px;"></i> info@novavistatech.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 NovaVista Technologies. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navMenu.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Header scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+        
+        // Service card hover enhancement
+        const serviceCards = document.querySelectorAll('.service-card');
+        serviceCards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                const icon = card.querySelector('.service-icon');
+                icon.style.transform = 'scale(1.1)';
+                icon.style.transition = 'transform 0.3s ease';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                const icon = card.querySelector('.service-icon');
+                icon.style.transform = 'scale(1)';
+            });
+        });
+    </script>
+</body>
+</html>
