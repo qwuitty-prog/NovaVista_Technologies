@@ -162,6 +162,7 @@
             height: 100%;
             object-fit: cover;
             z-index: -2;
+            display: block;
         }
         
         .video-overlay {
@@ -882,6 +883,16 @@
             z-index: -2;
         }
         
+        /* Mobile-only video */
+        .mobile-video {
+            display: none;
+        }
+        
+        /* Desktop video */
+        .desktop-video {
+            display: block;
+        }
+        
         /* Responsive Design */
         @media (max-width: 1200px) {
             .hero-content h1 {
@@ -927,6 +938,15 @@
         }
         
         @media (max-width: 768px) {
+            /* Show mobile video, hide desktop video on mobile */
+            .mobile-video {
+                display: block;
+            }
+            
+            .desktop-video {
+                display: none;
+            }
+            
             nav ul {
                 display: none;
                 position: absolute;
@@ -1203,15 +1223,25 @@
 
     <!-- Video Hero Section -->
     <section class="video-hero">
-        <!-- Fire Video Background -->
-        <video autoplay muted loop playsinline class="video-background">
+        <!-- Desktop Video Background -->
+        <video autoplay muted loop playsinline class="video-background desktop-video">
             <source src="https://raw.githubusercontent.com/qwuitty-prog/NovaVista_Technologies/main/Assets/Vids/aagpc.mp4" type="video/mp4">
             <!-- Fallback video sources -->
             <source src="https://assets.mixkit.co/videos/preview/mixkit-burning-fire-3927-large.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         
-        <!-- Fallback background image if video doesn't load -->
+        <!-- Mobile Video Background (aagmb) -->
+        <video autoplay muted loop playsinline class="video-background mobile-video">
+            <source src="https://raw.githubusercontent.com/qwuitty-prog/NovaVista_Technologies/main/Assets/Vids/aagmb.mp4" type="video/mp4">
+            <!-- Fallback for mobile -->
+            <source src="https://raw.githubusercontent.com/qwuitty-prog/NovaVista_Technologies/main/Assets/Vids/aagpc.mp4" type="video/mp4">
+            <!-- Another fallback -->
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-burning-fire-3927-large.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+        <!-- Fallback background image if videos don't load -->
         <div class="video-fallback" style="background: linear-gradient(135deg, rgba(18, 18, 18, 0.95) 0%, rgba(30, 30, 30, 0.9) 100%), url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\" viewBox=\"0 0 100 100\"><rect width=\"100\" height=\"100\" fill=\"none\"/><path d=\"M0,50 Q25,25 50,50 T100,50\" stroke=\"%23c62828\" stroke-width=\"0.5\" fill=\"none\" opacity=\"0.1\"/></svg>');"></div>
         
         <div class="video-overlay"></div>
@@ -1507,27 +1537,73 @@
             });
         });
         
-        // Video fallback handling
-        const video = document.querySelector('.video-background');
+        // Video handling for mobile and desktop
+        const desktopVideo = document.querySelector('.desktop-video');
+        const mobileVideo = document.querySelector('.mobile-video');
         const videoFallback = document.querySelector('.video-fallback');
         
-        video.addEventListener('error', () => {
-            video.style.display = 'none';
-            videoFallback.style.display = 'block';
-        });
+        // Check if we're on mobile
+        function isMobileDevice() {
+            return window.matchMedia("(max-width: 768px)").matches;
+        }
         
-        // Check if video can play
-        video.addEventListener('canplay', () => {
-            videoFallback.style.display = 'none';
-        });
-        
-        // Add a timeout in case video takes too long to load
-        setTimeout(() => {
-            if (video.readyState < 3) { // HAVE_FUTURE_DATA
-                video.style.display = 'none';
-                videoFallback.style.display = 'block';
+        // Handle video loading and fallback
+        function handleVideoLoading() {
+            const currentVideo = isMobileDevice() ? mobileVideo : desktopVideo;
+            const otherVideo = isMobileDevice() ? desktopVideo : mobileVideo;
+            
+            // Hide the other video
+            otherVideo.style.display = 'none';
+            
+            // Show current video
+            currentVideo.style.display = 'block';
+            
+            // Check if current video can play
+            currentVideo.addEventListener('error', () => {
+                console.log("Current video failed to load, trying fallback");
+                currentVideo.style.display = 'none';
+                
+                // Try the other video as fallback
+                otherVideo.style.display = 'block';
+                otherVideo.load();
+                
+                // If other video also fails, show static fallback
+                otherVideo.addEventListener('error', () => {
+                    otherVideo.style.display = 'none';
+                    videoFallback.style.display = 'block';
+                });
+            });
+            
+            // Try to play the current video
+            const playPromise = currentVideo.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(error => {
+                    console.log("Video playback failed:", error);
+                    currentVideo.style.display = 'none';
+                    otherVideo.style.display = 'block';
+                    
+                    const otherPlayPromise = otherVideo.play();
+                    if (otherPlayPromise !== undefined) {
+                        otherPlayPromise.catch(() => {
+                            otherVideo.style.display = 'none';
+                            videoFallback.style.display = 'block';
+                        });
+                    }
+                });
             }
-        }, 3000);
+        }
+        
+        // Initialize video on page load
+        window.addEventListener('DOMContentLoaded', handleVideoLoading);
+        
+        // Re-check on window resize (for orientation changes)
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                handleVideoLoading();
+            }, 250);
+        });
         
         // Enhanced hover effects for feature cards
         const featureCards = document.querySelectorAll('.feature-card');
@@ -1557,20 +1633,6 @@
             });
         });
         
-        // Initialize video playback
-        window.addEventListener('DOMContentLoaded', () => {
-            // Try to play video
-            const playPromise = video.play();
-            
-            if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.log("Video playback failed:", error);
-                    video.style.display = 'none';
-                    videoFallback.style.display = 'block';
-                });
-            }
-        });
-        
         // Prevent zoom on double-tap for mobile
         let lastTouchEnd = 0;
         document.addEventListener('touchend', function (event) {
@@ -1588,8 +1650,13 @@
                 if (window.scrollY > 0) {
                     window.scrollTo(0, 0);
                 }
+                // Re-handle video loading after orientation change
+                handleVideoLoading();
             }, 100);
         });
+        
+        // Initialize videos with a small delay to ensure DOM is ready
+        setTimeout(handleVideoLoading, 500);
     </script>
 </body>
 </html>
