@@ -143,7 +143,7 @@
             flex-shrink: 0;
         }
         
-        /* Video Hero Section */
+        /* Video Hero Section - UPDATED FOR MOBILE */
         .video-hero {
             height: 100vh;
             min-height: 600px;
@@ -162,6 +162,16 @@
             height: 100%;
             object-fit: cover;
             z-index: -2;
+            /* Mobile-specific fixes */
+            display: block !important;
+            opacity: 1 !important;
+        }
+        
+        /* Force video to show on mobile */
+        .video-background.mobile-fallback {
+            display: block !important;
+            opacity: 1 !important;
+            visibility: visible !important;
         }
         
         .video-overlay {
@@ -685,9 +695,8 @@
             overflow-wrap: break-word;
         }
         
-        /* Video Fallback */
+        /* Video Fallback - UPDATED */
         .video-fallback {
-            display: none;
             position: absolute;
             top: 0;
             left: 0;
@@ -695,6 +704,34 @@
             height: 100%;
             object-fit: cover;
             z-index: -2;
+            background: linear-gradient(135deg, rgba(18, 18, 18, 0.95) 0%, rgba(30, 30, 30, 0.9) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        /* Mobile video controls */
+        .video-play-button {
+            position: absolute;
+            bottom: 100px;
+            right: 20px;
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 10px rgba(198, 40, 40, 0.4);
         }
         
         /* Responsive Design */
@@ -841,6 +878,11 @@
             .stat-text {
                 font-size: 1.1rem;
             }
+            
+            /* Show video play button on mobile */
+            .video-play-button {
+                display: flex;
+            }
         }
         
         @media (max-width: 576px) {
@@ -964,6 +1006,19 @@
             }
         }
         
+        /* Force video display on mobile */
+        @media (max-width: 768px) {
+            .video-background {
+                display: block !important;
+                visibility: visible !important;
+                opacity: 1 !important;
+            }
+            
+            .video-fallback {
+                display: none !important;
+            }
+        }
+        
         /* Prevent text wrapping on larger screens */
         @media (min-width: 769px) {
             .hero-content h1,
@@ -974,6 +1029,37 @@
                 word-break: keep-all;
                 overflow-wrap: normal;
                 hyphens: none;
+            }
+        }
+        
+        /* iOS Safari specific fixes */
+        @supports (-webkit-touch-callout: none) {
+            .video-hero {
+                height: -webkit-fill-available;
+            }
+            
+            .video-background {
+                object-position: center;
+            }
+        }
+        
+        /* Mobile landscape */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .video-hero {
+                height: 120vh;
+            }
+            
+            .hero-content h1 {
+                font-size: 2rem;
+            }
+            
+            .hero-content p {
+                font-size: 1rem;
+                margin-bottom: 20px;
+            }
+            
+            .hero-buttons {
+                margin-top: 20px;
             }
         }
     </style>
@@ -1007,15 +1093,28 @@
     <!-- Video Hero Section -->
     <section class="video-hero">
         <!-- Fire Video Background -->
-        <video autoplay muted loop playsinline class="video-background">
+        <video autoplay muted loop playsinline class="video-background" id="heroVideo" preload="auto" webkit-playsinline>
             <source src="https://raw.githubusercontent.com/qwuitty-prog/NovaVista_Technologies/main/Assets/Vids/aagpc.mp4" type="video/mp4">
             <!-- Fallback video sources -->
             <source src="https://assets.mixkit.co/videos/preview/mixkit-burning-fire-3927-large.mp4" type="video/mp4">
+            <!-- Additional fallback -->
+            <source src="https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4" type="video/mp4">
             Your browser does not support the video tag.
         </video>
         
-        <!-- Fallback background image if video doesn't load -->
-        <div class="video-fallback" style="background: linear-gradient(135deg, rgba(18, 18, 18, 0.95) 0%, rgba(30, 30, 30, 0.9) 100%), url('data:image/svg+xml;utf8,<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"100\" height=\"100\" viewBox=\"0 0 100 100\"><rect width=\"100\" height=\"100\" fill=\"none\"/><path d=\"M0,50 Q25,25 50,50 T100,50\" stroke=\"%23c62828\" stroke-width=\"0.5\" fill=\"none\" opacity=\"0.1\"/></svg>');"></div>
+        <!-- Video play button for mobile -->
+        <button class="video-play-button" id="videoPlayButton" aria-label="Play video">
+            <i class="fas fa-play"></i>
+        </button>
+        
+        <!-- Fallback background if video doesn't load -->
+        <div class="video-fallback" id="videoFallback">
+            <div>
+                <i class="fas fa-fire" style="font-size: 3rem; color: var(--primary-red); margin-bottom: 20px;"></i>
+                <h2 style="color: var(--text-light); margin-bottom: 15px;">Ignite Your Digital Future</h2>
+                <p>Experience cutting-edge technology solutions</p>
+            </div>
+        </div>
         
         <div class="video-overlay"></div>
         
@@ -1244,27 +1343,125 @@
         
         window.addEventListener('scroll', animateStats);
         
-        // Video fallback handling
-        const video = document.querySelector('.video-background');
-        const videoFallback = document.querySelector('.video-fallback');
+        // Video handling for mobile
+        const video = document.getElementById('heroVideo');
+        const videoFallback = document.getElementById('videoFallback');
+        const videoPlayButton = document.getElementById('videoPlayButton');
         
-        video.addEventListener('error', () => {
-            video.style.display = 'none';
-            videoFallback.style.display = 'block';
-        });
-        
-        // Check if video can play
-        video.addEventListener('canplay', () => {
-            videoFallback.style.display = 'none';
-        });
-        
-        // Add a timeout in case video takes too long to load
-        setTimeout(() => {
-            if (video.readyState < 3) { // HAVE_FUTURE_DATA
-                video.style.display = 'none';
-                videoFallback.style.display = 'block';
+        // Force video to show on mobile
+        function forceVideoDisplay() {
+            if (window.innerWidth <= 768) {
+                video.style.display = 'block';
+                video.style.visibility = 'visible';
+                video.style.opacity = '1';
+                
+                // Try to play video on mobile
+                const playPromise = video.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        // Video played successfully
+                        videoFallback.style.display = 'none';
+                        videoPlayButton.style.display = 'none';
+                    }).catch(error => {
+                        console.log("Mobile video autoplay failed, showing play button:", error);
+                        videoPlayButton.style.display = 'flex';
+                        video.muted = true; // Ensure muted for mobile
+                    });
+                }
             }
-        }, 3000);
+        }
+        
+        // Video play button functionality
+        videoPlayButton.addEventListener('click', () => {
+            video.play().then(() => {
+                videoPlayButton.innerHTML = '<i class="fas fa-pause"></i>';
+                videoPlayButton.style.display = 'none';
+                videoFallback.style.display = 'none';
+            }).catch(error => {
+                console.log("Manual video play failed:", error);
+                videoPlayButton.innerHTML = '<i class="fas fa-exclamation-triangle"></i>';
+                setTimeout(() => {
+                    videoPlayButton.innerHTML = '<i class="fas fa-play"></i>';
+                }, 1000);
+            });
+        });
+        
+        // Check video state
+        video.addEventListener('loadeddata', () => {
+            console.log("Video loaded successfully");
+            forceVideoDisplay();
+        });
+        
+        video.addEventListener('canplay', () => {
+            console.log("Video can play");
+            forceVideoDisplay();
+        });
+        
+        video.addEventListener('error', (e) => {
+            console.error("Video error:", e);
+            videoFallback.style.display = 'flex';
+            videoPlayButton.style.display = 'none';
+            
+            // Try alternative video source
+            if (video.currentSrc.includes('aagpc.mp4')) {
+                console.log("Trying alternative video source...");
+                video.src = 'https://assets.mixkit.co/videos/preview/mixkit-burning-fire-3927-large.mp4';
+                video.load();
+            }
+        });
+        
+        // Initialize on load
+        window.addEventListener('DOMContentLoaded', () => {
+            // Preload video
+            video.load();
+            
+            // Check if mobile
+            if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+                console.log("Mobile device detected");
+                forceVideoDisplay();
+                
+                // Additional mobile-specific setup
+                video.setAttribute('playsinline', '');
+                video.setAttribute('webkit-playsinline', '');
+                video.muted = true;
+                
+                // Try to play after user interaction
+                document.body.addEventListener('touchstart', function firstTouch() {
+                    const playPromise = video.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(() => {
+                            // Show play button if autoplay fails
+                            videoPlayButton.style.display = 'flex';
+                        });
+                    }
+                    document.body.removeEventListener('touchstart', firstTouch);
+                });
+            }
+            
+            // Fallback timeout
+            setTimeout(() => {
+                if (video.readyState < 3) { // HAVE_FUTURE_DATA
+                    console.log("Video loading timeout, showing fallback");
+                    videoFallback.style.display = 'flex';
+                }
+            }, 5000);
+        });
+        
+        // Handle orientation change
+        window.addEventListener('orientationchange', () => {
+            setTimeout(() => {
+                forceVideoDisplay();
+                if (window.scrollY > 0) {
+                    window.scrollTo(0, 0);
+                }
+            }, 300);
+        });
+        
+        // Handle resize
+        window.addEventListener('resize', () => {
+            forceVideoDisplay();
+        });
         
         // Enhanced hover effects for feature cards
         const featureCards = document.querySelectorAll('.feature-card');
@@ -1280,20 +1477,6 @@
             });
         });
         
-        // Initialize video playback
-        window.addEventListener('DOMContentLoaded', () => {
-            // Try to play video
-            const playPromise = video.play();
-            
-            if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.log("Video playback failed:", error);
-                    video.style.display = 'none';
-                    videoFallback.style.display = 'block';
-                });
-            }
-        });
-        
         // Prevent zoom on double-tap for mobile
         let lastTouchEnd = 0;
         document.addEventListener('touchend', function (event) {
@@ -1304,15 +1487,43 @@
             lastTouchEnd = now;
         }, false);
         
-        // Handle orientation change
-        window.addEventListener('orientationchange', function() {
-            setTimeout(function() {
-                // Scroll to top on orientation change to prevent layout issues
-                if (window.scrollY > 0) {
-                    window.scrollTo(0, 0);
-                }
-            }, 100);
-        });
+        // iOS specific fixes
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent) && !window.MSStream) {
+            // iOS detected
+            document.addEventListener('touchstart', function() {}, {passive: true});
+            
+            // Force video attributes for iOS
+            video.setAttribute('playsinline', 'true');
+            video.setAttribute('webkit-playsinline', 'true');
+            video.muted = true;
+            
+            // Try to play video on iOS
+            document.addEventListener('touchstart', function playVideoOnInteraction() {
+                video.play().then(() => {
+                    videoFallback.style.display = 'none';
+                    videoPlayButton.style.display = 'none';
+                }).catch(e => {
+                    console.log("iOS video play failed:", e);
+                    videoPlayButton.style.display = 'flex';
+                });
+                document.removeEventListener('touchstart', playVideoOnInteraction);
+            }, {once: true});
+        }
+        
+        // Android specific fixes
+        if (/Android/.test(navigator.userAgent)) {
+            video.muted = true;
+            video.setAttribute('playsinline', 'true');
+            
+            // Try to play immediately on Android
+            const playPromise = video.play();
+            if (playPromise !== undefined) {
+                playPromise.catch(() => {
+                    // Show play button if autoplay fails
+                    videoPlayButton.style.display = 'flex';
+                });
+            }
+        }
     </script>
 </body>
 </html>
