@@ -1406,82 +1406,90 @@
         
         // Function to handle video errors
         const handleVideoError = (videoElement) => {
-            videoElement.style.display = 'none';
-            // Check if both videos failed
-            if (desktopVideo.style.display === 'none' && mobileVideo.style.display === 'none') {
-                videoFallback.style.display = 'block';
+            if (videoElement) {
+                videoElement.style.display = 'none';
+                // Check if both videos failed
+                if (desktopVideo && desktopVideo.style.display === 'none' && 
+                    mobileVideo && mobileVideo.style.display === 'none') {
+                    if (videoFallback) videoFallback.style.display = 'block';
+                }
             }
         };
         
         // Add error listeners to both videos
-        desktopVideo.addEventListener('error', () => handleVideoError(desktopVideo));
-        mobileVideo.addEventListener('error', () => handleVideoError(mobileVideo));
+        if (desktopVideo) desktopVideo.addEventListener('error', () => handleVideoError(desktopVideo));
+        if (mobileVideo) mobileVideo.addEventListener('error', () => handleVideoError(mobileVideo));
         
         // Check if videos can play
-        desktopVideo.addEventListener('canplay', () => {
-            videoFallback.style.display = 'none';
+        if (desktopVideo) desktopVideo.addEventListener('canplay', () => {
+            if (videoFallback) videoFallback.style.display = 'none';
         });
         
-        mobileVideo.addEventListener('canplay', () => {
-            videoFallback.style.display = 'none';
+        if (mobileVideo) mobileVideo.addEventListener('canplay', () => {
+            if (videoFallback) videoFallback.style.display = 'none';
         });
         
         // Add a timeout in case videos take too long to load
         setTimeout(() => {
             // Check desktop video
-            if (desktopVideo.readyState < 3 && window.innerWidth > 768) {
+            if (desktopVideo && desktopVideo.readyState < 3 && window.innerWidth > 768) {
                 handleVideoError(desktopVideo);
             }
             // Check mobile video
-            if (mobileVideo.readyState < 3 && window.innerWidth <= 768) {
+            if (mobileVideo && mobileVideo.readyState < 3 && window.innerWidth <= 768) {
                 handleVideoError(mobileVideo);
             }
         }, 3000);
         
         // Initialize video playback based on screen size
         window.addEventListener('DOMContentLoaded', () => {
-            // Determine which video to play based on screen width
-            const isMobile = window.innerWidth <= 768;
-            const videoToPlay = isMobile ? mobileVideo : desktopVideo;
-            
-            // Try to play the appropriate video
-            const playPromise = videoToPlay.play();
-            
-            if (playPromise !== undefined) {
-                playPromise.catch(error => {
-                    console.log("Video playback failed:", error);
-                    handleVideoError(videoToPlay);
-                });
+            // Only if we have both videos
+            if (desktopVideo && mobileVideo) {
+                // Determine which video to play based on screen width
+                const isMobile = window.innerWidth <= 768;
+                const videoToPlay = isMobile ? mobileVideo : desktopVideo;
+                
+                // Try to play the appropriate video
+                const playPromise = videoToPlay.play();
+                
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Video playback failed:", error);
+                        handleVideoError(videoToPlay);
+                    });
+                }
             }
         });
         
         // Handle window resize to switch videos if needed
         window.addEventListener('resize', () => {
-            const isMobile = window.innerWidth <= 768;
-            
-            if (isMobile) {
-                // Switch to mobile video
-                desktopVideo.style.display = 'none';
-                mobileVideo.style.display = 'block';
+            if (desktopVideo && mobileVideo) {
+                const isMobile = window.innerWidth <= 768;
                 
-                // Try to play mobile video
-                const playPromise = mobileVideo.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        console.log("Mobile video playback failed:", error);
-                    });
-                }
-            } else {
-                // Switch to desktop video
-                mobileVideo.style.display = 'none';
-                desktopVideo.style.display = 'block';
-                
-                // Try to play desktop video
-                const playPromise = desktopVideo.play();
-                if (playPromise !== undefined) {
-                    playPromise.catch(error => {
-                        console.log("Desktop video playback failed:", error);
-                    });
+                if (isMobile) {
+                    // Switch to mobile video
+                    desktopVideo.style.display = 'none';
+                    mobileVideo.style.display = 'block';
+                    
+                    // Try to play mobile video
+                    const playPromise = mobileVideo.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(error => {
+                            console.log("Mobile video playback failed:", error);
+                        });
+                    }
+                } else {
+                    // Switch to desktop video
+                    mobileVideo.style.display = 'none';
+                    desktopVideo.style.display = 'block';
+                    
+                    // Try to play desktop video
+                    const playPromise = desktopVideo.play();
+                    if (playPromise !== undefined) {
+                        playPromise.catch(error => {
+                            console.log("Desktop video playback failed:", error);
+                        });
+                    }
                 }
             }
         });
@@ -1495,13 +1503,15 @@
                 }
                 
                 // Re-check which video to show after orientation change
-                const isMobile = window.innerWidth <= 768;
-                if (isMobile) {
-                    desktopVideo.style.display = 'none';
-                    mobileVideo.style.display = 'block';
-                } else {
-                    mobileVideo.style.display = 'none';
-                    desktopVideo.style.display = 'block';
+                if (desktopVideo && mobileVideo) {
+                    const isMobile = window.innerWidth <= 768;
+                    if (isMobile) {
+                        desktopVideo.style.display = 'none';
+                        mobileVideo.style.display = 'block';
+                    } else {
+                        mobileVideo.style.display = 'none';
+                        desktopVideo.style.display = 'block';
+                    }
                 }
             }, 100);
         });
