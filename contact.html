@@ -154,6 +154,16 @@
             z-index: -2;
         }
         
+        /* Desktop video - visible by default, hidden on mobile */
+        .video-desktop {
+            display: block;
+        }
+        
+        /* Mobile video - hidden by default, visible on mobile */
+        .video-mobile {
+            display: none;
+        }
+        
         .video-overlay {
             position: absolute;
             top: 0;
@@ -205,6 +215,13 @@
             margin-left: auto;
             margin-right: auto;
             text-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .hero-buttons {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
         }
         
         .cta-button {
@@ -780,6 +797,15 @@
         }
         
         @media (max-width: 768px) {
+            /* Show mobile video and hide desktop video */
+            .video-desktop {
+                display: none;
+            }
+            
+            .video-mobile {
+                display: block;
+            }
+            
             nav ul {
                 display: none;
                 position: absolute;
@@ -811,6 +837,18 @@
             
             .hero-content p {
                 font-size: 1.2rem;
+            }
+            
+            .hero-buttons {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+            
+            .cta-button {
+                width: 100%;
+                max-width: 300px;
+                padding: 16px 30px;
             }
             
             .video-hero {
@@ -930,9 +968,17 @@
 
     <!-- Video Hero Section -->
     <section class="video-hero">
-        <!-- Fire Video Background -->
-        <video autoplay muted loop playsinline class="video-background">
-            <source src="https://raw.githubusercontent.com/qwuitty-prog/NovaVista_Technologies/main/Assets/Vids/FireHero2.mp4" type="video/mp4">
+        <!-- Desktop Video Background (aagpc.mp4) -->
+        <video autoplay muted loop playsinline class="video-background video-desktop">
+            <source src="https://raw.githubusercontent.com/qwuitty-prog/NovaVista_Technologies/main/Assets/Vids/aagpc.mp4" type="video/mp4">
+            <!-- Fallback video sources -->
+            <source src="https://assets.mixkit.co/videos/preview/mixkit-burning-fire-3927-large.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+        
+        <!-- Mobile Video Background (aagmb.mp4) -->
+        <video autoplay muted loop playsinline class="video-background video-mobile">
+            <source src="https://raw.githubusercontent.com/qwuitty-prog/NovaVista_Technologies/main/Assets/Vids/aagmb.mp4" type="video/mp4">
             <!-- Fallback video sources -->
             <source src="https://assets.mixkit.co/videos/preview/mixkit-burning-fire-3927-large.mp4" type="video/mp4">
             Your browser does not support the video tag.
@@ -1353,40 +1399,111 @@
             contactForm.reset();
         });
         
-        // Video fallback handling
-        const video = document.querySelector('.video-background');
+        // Video fallback handling for both desktop and mobile videos
+        const desktopVideo = document.querySelector('.video-desktop');
+        const mobileVideo = document.querySelector('.video-mobile');
         const videoFallback = document.querySelector('.video-fallback');
         
-        video.addEventListener('error', () => {
-            video.style.display = 'none';
-            videoFallback.style.display = 'block';
-        });
+        // Function to handle video errors
+        const handleVideoError = (videoElement) => {
+            videoElement.style.display = 'none';
+            // Check if both videos failed
+            if (desktopVideo.style.display === 'none' && mobileVideo.style.display === 'none') {
+                videoFallback.style.display = 'block';
+            }
+        };
         
-        // Check if video can play
-        video.addEventListener('canplay', () => {
+        // Add error listeners to both videos
+        desktopVideo.addEventListener('error', () => handleVideoError(desktopVideo));
+        mobileVideo.addEventListener('error', () => handleVideoError(mobileVideo));
+        
+        // Check if videos can play
+        desktopVideo.addEventListener('canplay', () => {
             videoFallback.style.display = 'none';
         });
         
-        // Add a timeout in case video takes too long to load
+        mobileVideo.addEventListener('canplay', () => {
+            videoFallback.style.display = 'none';
+        });
+        
+        // Add a timeout in case videos take too long to load
         setTimeout(() => {
-            if (video.readyState < 3) { // HAVE_FUTURE_DATA
-                video.style.display = 'none';
-                videoFallback.style.display = 'block';
+            // Check desktop video
+            if (desktopVideo.readyState < 3 && window.innerWidth > 768) {
+                handleVideoError(desktopVideo);
+            }
+            // Check mobile video
+            if (mobileVideo.readyState < 3 && window.innerWidth <= 768) {
+                handleVideoError(mobileVideo);
             }
         }, 3000);
         
-        // Initialize video playback
+        // Initialize video playback based on screen size
         window.addEventListener('DOMContentLoaded', () => {
-            // Try to play video
-            const playPromise = video.play();
+            // Determine which video to play based on screen width
+            const isMobile = window.innerWidth <= 768;
+            const videoToPlay = isMobile ? mobileVideo : desktopVideo;
+            
+            // Try to play the appropriate video
+            const playPromise = videoToPlay.play();
             
             if (playPromise !== undefined) {
                 playPromise.catch(error => {
                     console.log("Video playback failed:", error);
-                    video.style.display = 'none';
-                    videoFallback.style.display = 'block';
+                    handleVideoError(videoToPlay);
                 });
             }
+        });
+        
+        // Handle window resize to switch videos if needed
+        window.addEventListener('resize', () => {
+            const isMobile = window.innerWidth <= 768;
+            
+            if (isMobile) {
+                // Switch to mobile video
+                desktopVideo.style.display = 'none';
+                mobileVideo.style.display = 'block';
+                
+                // Try to play mobile video
+                const playPromise = mobileVideo.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Mobile video playback failed:", error);
+                    });
+                }
+            } else {
+                // Switch to desktop video
+                mobileVideo.style.display = 'none';
+                desktopVideo.style.display = 'block';
+                
+                // Try to play desktop video
+                const playPromise = desktopVideo.play();
+                if (playPromise !== undefined) {
+                    playPromise.catch(error => {
+                        console.log("Desktop video playback failed:", error);
+                    });
+                }
+            }
+        });
+        
+        // Handle orientation change
+        window.addEventListener('orientationchange', function() {
+            setTimeout(function() {
+                // Scroll to top on orientation change to prevent layout issues
+                if (window.scrollY > 0) {
+                    window.scrollTo(0, 0);
+                }
+                
+                // Re-check which video to show after orientation change
+                const isMobile = window.innerWidth <= 768;
+                if (isMobile) {
+                    desktopVideo.style.display = 'none';
+                    mobileVideo.style.display = 'block';
+                } else {
+                    mobileVideo.style.display = 'none';
+                    desktopVideo.style.display = 'block';
+                }
+            }, 100);
         });
     </script>
 </body>
