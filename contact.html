@@ -1,0 +1,1173 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us | NovaVista Technologies</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&family=Open+Sans:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-red: #c62828;
+            --dark-red: #8e0000;
+            --light-red: #ff5f52;
+            --dark-bg: #121212;
+            --medium-bg: #1e1e1e;
+            --light-bg: #2a2a2a;
+            --text-light: #f5f5f5;
+            --text-gray: #b0b0b0;
+            --accent-orange: #ff8a00;
+            --accent-yellow: #ffc400;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            color: var(--text-light);
+            background-color: var(--dark-bg);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 600;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        /* Header & Navigation */
+        header {
+            background-color: rgba(18, 18, 18, 0.95);
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 12px rgba(198, 40, 40, 0.2);
+            transition: all 0.3s ease;
+        }
+        
+        header.scrolled {
+            padding: 15px 0;
+            background-color: rgba(18, 18, 18, 0.98);
+        }
+        
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .logo-icon {
+            color: var(--primary-red);
+            font-size: 28px;
+        }
+        
+        .logo-text {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(to right, var(--primary-red), var(--accent-orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 30px;
+        }
+        
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 16px;
+            padding: 8px 0;
+            position: relative;
+            transition: color 0.3s;
+        }
+        
+        nav a:hover {
+            color: var(--primary-red);
+        }
+        
+        nav a.active {
+            color: var(--primary-red);
+        }
+        
+        nav a.active:after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(to right, var(--primary-red), var(--accent-orange));
+            bottom: -5px;
+            left: 0;
+            border-radius: 2px;
+        }
+        
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 24px;
+            cursor: pointer;
+        }
+        
+        /* Page Header */
+        .page-header {
+            padding: 160px 0 80px;
+            background: linear-gradient(135deg, rgba(18, 18, 18, 0.9) 0%, rgba(30, 30, 30, 0.8) 100%), 
+                        url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100"><rect width="100" height="100" fill="none"/><path d="M0,50 Q25,25 50,50 T100,50" stroke="%23c62828" stroke-width="0.5" fill="none" opacity="0.1"/></svg>');
+            position: relative;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        .page-header:before {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 150px;
+            background: linear-gradient(90deg, var(--primary-red) 0%, var(--accent-orange) 50%, var(--accent-yellow) 100%);
+            bottom: 0;
+            left: -50%;
+            opacity: 0.1;
+            filter: blur(20px);
+        }
+        
+        .page-header-content {
+            max-width: 900px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+        
+        .page-header h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            line-height: 1.2;
+        }
+        
+        .page-header h1 span {
+            background: linear-gradient(to right, var(--primary-red), var(--accent-orange));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+        
+        .page-header p {
+            font-size: 1.2rem;
+            color: var(--text-gray);
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        /* Section Styling */
+        .section {
+            padding: 100px 0;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+        
+        .section-title h2 {
+            font-size: 2.5rem;
+            position: relative;
+            display: inline-block;
+            padding-bottom: 15px;
+        }
+        
+        .section-title h2:after {
+            content: '';
+            position: absolute;
+            width: 70px;
+            height: 4px;
+            background: linear-gradient(to right, var(--primary-red), var(--accent-orange));
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            border-radius: 2px;
+        }
+        
+        .section-title p {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 20px auto 0;
+        }
+        
+        /* Contact Content */
+        .contact-content {
+            display: flex;
+            gap: 60px;
+            margin-bottom: 80px;
+        }
+        
+        .contact-info {
+            flex: 1;
+        }
+        
+        .contact-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 25px;
+            color: var(--primary-red);
+        }
+        
+        .contact-info p {
+            color: var(--text-gray);
+            margin-bottom: 30px;
+        }
+        
+        .contact-details {
+            margin-top: 40px;
+        }
+        
+        .contact-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 30px;
+        }
+        
+        .contact-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(to right, var(--primary-red), var(--dark-red));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 20px;
+            font-size: 24px;
+            flex-shrink: 0;
+        }
+        
+        .contact-detail h4 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+        
+        .contact-detail p {
+            color: var(--text-gray);
+            margin-bottom: 0;
+        }
+        
+        /* Contact Form */
+        .contact-form-container {
+            flex: 1;
+            background-color: var(--light-bg);
+            border-radius: 10px;
+            padding: 50px 40px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .contact-form-container:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary-red), var(--accent-orange));
+        }
+        
+        .contact-form-container h3 {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: var(--primary-red);
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .form-control {
+            width: 100%;
+            padding: 15px;
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            color: var(--text-light);
+            font-size: 16px;
+            transition: border-color 0.3s;
+        }
+        
+        .form-control:focus {
+            outline: none;
+            border-color: var(--primary-red);
+            box-shadow: 0 0 0 2px rgba(198, 40, 40, 0.1);
+        }
+        
+        textarea.form-control {
+            min-height: 150px;
+            resize: vertical;
+        }
+        
+        .submit-button {
+            display: inline-block;
+            background: linear-gradient(to right, var(--primary-red), var(--dark-red));
+            color: white;
+            padding: 16px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(198, 40, 40, 0.3);
+            border: none;
+            cursor: pointer;
+            width: 100%;
+        }
+        
+        .submit-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(198, 40, 40, 0.4);
+            background: linear-gradient(to right, var(--light-red), var(--primary-red));
+        }
+        
+        .submit-button:active {
+            transform: translateY(-1px);
+        }
+        
+        /* Office Locations */
+        .office-locations {
+            background-color: var(--medium-bg);
+        }
+        
+        .locations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+        }
+        
+        .location-card {
+            background-color: var(--light-bg);
+            border-radius: 10px;
+            overflow: hidden;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .location-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 35px rgba(198, 40, 40, 0.15);
+            border-color: rgba(198, 40, 40, 0.2);
+        }
+        
+        .location-header {
+            padding: 30px 30px 20px;
+            position: relative;
+        }
+        
+        .location-header:before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(to right, var(--primary-red), var(--accent-orange));
+        }
+        
+        .location-header h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--primary-red);
+        }
+        
+        .location-header p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+        
+        .location-details {
+            padding: 0 30px 30px;
+        }
+        
+        .location-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 20px;
+        }
+        
+        .location-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(198, 40, 40, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--primary-red);
+            flex-shrink: 0;
+        }
+        
+        .location-info p {
+            color: var(--text-gray);
+            font-size: 0.95rem;
+        }
+        
+        /* FAQ Section */
+        .faq-section {
+            background-color: var(--dark-bg);
+        }
+        
+        .faq-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        
+        .faq-item {
+            background-color: var(--light-bg);
+            border-radius: 10px;
+            margin-bottom: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: border-color 0.3s;
+        }
+        
+        .faq-item:hover {
+            border-color: rgba(198, 40, 40, 0.2);
+        }
+        
+        .faq-question {
+            padding: 25px 30px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+        
+        .faq-question:hover {
+            color: var(--primary-red);
+        }
+        
+        .faq-toggle {
+            color: var(--primary-red);
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+        
+        .faq-answer {
+            padding: 0 30px;
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.3s ease, padding 0.3s ease;
+            color: var(--text-gray);
+        }
+        
+        .faq-item.active .faq-answer {
+            padding: 0 30px 25px;
+            max-height: 500px;
+        }
+        
+        .faq-item.active .faq-toggle {
+            transform: rotate(45deg);
+        }
+        
+        /* Map Placeholder */
+        .map-placeholder {
+            height: 300px;
+            background: linear-gradient(135deg, rgba(198, 40, 40, 0.1) 0%, rgba(142, 0, 0, 0.1) 100%);
+            border-radius: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-top: 60px;
+            border: 2px dashed rgba(198, 40, 40, 0.3);
+        }
+        
+        .map-icon {
+            font-size: 60px;
+            color: var(--primary-red);
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+        
+        .map-placeholder p {
+            color: var(--text-gray);
+            font-size: 1.1rem;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: var(--dark-bg);
+            padding: 70px 0 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+        
+        .footer-content {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 40px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-column {
+            flex: 1;
+            min-width: 250px;
+        }
+        
+        .footer-column h3 {
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            color: var(--primary-red);
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-links a {
+            color: var(--text-gray);
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: var(--primary-red);
+        }
+        
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: var(--light-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-light);
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+        
+        .social-icon:hover {
+            background-color: var(--primary-red);
+            transform: translateY(-3px);
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            color: var(--text-gray);
+            font-size: 0.9rem;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 992px) {
+            .contact-content {
+                flex-direction: column;
+            }
+            
+            .page-header h1 {
+                font-size: 3rem;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            nav ul {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background-color: var(--dark-bg);
+                flex-direction: column;
+                padding: 20px;
+                box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+                gap: 0;
+            }
+            
+            nav ul.active {
+                display: flex;
+            }
+            
+            nav ul li {
+                margin: 10px 0;
+            }
+            
+            .mobile-menu-btn {
+                display: block;
+            }
+            
+            .page-header {
+                padding: 140px 0 60px;
+            }
+            
+            .page-header h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section {
+                padding: 80px 0;
+            }
+            
+            .section-title h2 {
+                font-size: 2.2rem;
+            }
+            
+            .contact-form-container {
+                padding: 40px 30px;
+            }
+            
+            .location-header, .location-details {
+                padding: 25px 20px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .page-header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .contact-form-container {
+                padding: 30px 20px;
+            }
+            
+            .faq-question {
+                padding: 20px;
+                font-size: 1rem;
+            }
+            
+            .faq-answer {
+                padding: 0 20px;
+            }
+            
+            .faq-item.active .faq-answer {
+                padding: 0 20px 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header & Navigation -->
+    <header id="header">
+        <div class="container header-container">
+            <div class="logo">
+                <div class="logo-icon">
+                    <i class="fas fa-fire"></i>
+                </div>
+                <div class="logo-text">NovaVista Technologies</div>
+            </div>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+            
+            <nav>
+                <ul id="navMenu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Header -->
+    <section class="page-header">
+        <div class="container">
+            <div class="page-header-content">
+                <h1>Get In <span>Touch</span></h1>
+                <p>Ready to ignite your digital transformation? Contact us today to discuss how NovaVista Technologies can help your business thrive.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Form & Info -->
+    <section class="section">
+        <div class="container">
+            <div class="contact-content">
+                <div class="contact-info">
+                    <h3>Connect With Our Team</h3>
+                    <p>Our experts are ready to discuss your technology challenges and opportunities. Reach out to start a conversation about how we can help fuel your business growth.</p>
+                    
+                    <div class="contact-details">
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="contact-detail">
+                                <h4>Headquarters</h4>
+                                <p>123 Innovation Drive<br>Tech Valley, CA 94025<br>United States</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="contact-detail">
+                                <h4>Phone</h4>
+                                <p>+1 (555) 123-4567<br>Mon-Fri: 9:00 AM - 6:00 PM EST</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="contact-detail">
+                                <h4>Email</h4>
+                                <p>info@novavistatech.com<br>support@novavistatech.com</p>
+                            </div>
+                        </div>
+                        
+                        <div class="contact-item">
+                            <div class="contact-icon">
+                                <i class="fas fa-clock"></i>
+                            </div>
+                            <div class="contact-detail">
+                                <h4>Business Hours</h4>
+                                <p>Monday - Friday: 9:00 AM - 6:00 PM<br>Saturday: 10:00 AM - 2:00 PM<br>Sunday: Closed</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="contact-form-container">
+                    <h3>Send Us a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label for="name">Full Name *</label>
+                            <input type="text" id="name" class="form-control" placeholder="Enter your name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" class="form-control" placeholder="Enter your email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="company">Company Name</label>
+                            <input type="text" id="company" class="form-control" placeholder="Enter your company name">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Phone Number</label>
+                            <input type="tel" id="phone" class="form-control" placeholder="Enter your phone number">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="service">Service Interest</label>
+                            <select id="service" class="form-control">
+                                <option value="">Select a service</option>
+                                <option value="cloud">Cloud Solutions</option>
+                                <option value="security">Cybersecurity</option>
+                                <option value="analytics">Data Analytics</option>
+                                <option value="digital">Digital Transformation</option>
+                                <option value="software">Software Development</option>
+                                <option value="managed">Managed IT Services</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Message *</label>
+                            <textarea id="message" class="form-control" placeholder="Tell us about your project or inquiry" required></textarea>
+                        </div>
+                        
+                        <button type="submit" class="submit-button">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Office Locations -->
+    <section class="section office-locations">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Global Offices</h2>
+                <p>Connect with our teams around the world</p>
+            </div>
+            
+            <div class="locations-grid">
+                <div class="location-card">
+                    <div class="location-header">
+                        <h3>North America</h3>
+                        <p>Headquarters & Innovation Center</p>
+                    </div>
+                    <div class="location-details">
+                        <div class="location-item">
+                            <div class="location-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="location-info">
+                                <p>123 Innovation Drive<br>Tech Valley, CA 94025<br>United States</p>
+                            </div>
+                        </div>
+                        
+                        <div class="location-item">
+                            <div class="location-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="location-info">
+                                <p>+1 (555) 123-4567</p>
+                            </div>
+                        </div>
+                        
+                        <div class="location-item">
+                            <div class="location-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="location-info">
+                                <p>na@novavistatech.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="location-card">
+                    <div class="location-header">
+                        <h3>Europe</h3>
+                        <p>European Operations Center</p>
+                    </div>
+                    <div class="location-details">
+                        <div class="location-item">
+                            <div class="location-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="location-info">
+                                <p>45 Innovation Square<br>London EC2A 4BX<br>United Kingdom</p>
+                            </div>
+                        </div>
+                        
+                        <div class="location-item">
+                            <div class="location-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="location-info">
+                                <p>+44 (0)20 7946 0958</p>
+                            </div>
+                        </div>
+                        
+                        <div class="location-item">
+                            <div class="location-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="location-info">
+                                <p>eu@novavistatech.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="location-card">
+                    <div class="location-header">
+                        <h3>Asia Pacific</h3>
+                        <p>APAC Regional Office</p>
+                    </div>
+                    <div class="location-details">
+                        <div class="location-item">
+                            <div class="location-icon">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div class="location-info">
+                                <p>78 Marina Bay Sands<br>Singapore 018956</p>
+                            </div>
+                        </div>
+                        
+                        <div class="location-item">
+                            <div class="location-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div class="location-info">
+                                <p>+65 6235 1234</p>
+                            </div>
+                        </div>
+                        
+                        <div class="location-item">
+                            <div class="location-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div class="location-info">
+                                <p>apac@novavistatech.com</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section faq-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Frequently Asked Questions</h2>
+                <p>Quick answers to common questions about our services and processes</p>
+            </div>
+            
+            <div class="faq-container">
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How quickly can you start working on my project?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We typically begin new projects within 1-2 weeks of contract signing, depending on project complexity and resource availability. For urgent requirements, we offer expedited onboarding that can begin within 3-5 business days.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What industries do you specialize in?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We have extensive experience across multiple industries including financial services, healthcare, retail, manufacturing, education, and logistics. Our solutions are tailored to meet the specific regulatory, security, and operational requirements of each sector.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>Do you offer ongoing support and maintenance?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Yes, we offer comprehensive support and maintenance packages for all our solutions. This includes 24/7 monitoring, regular updates, security patches, performance optimization, and dedicated technical support to ensure your systems remain secure and efficient.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What is your typical project timeline?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Project timelines vary based on scope and complexity. A typical digital transformation project ranges from 3-6 months, while specific implementations like cloud migration or security assessments may take 1-3 months. We provide detailed project plans with milestones during the discovery phase.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>How do you ensure data security and compliance?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We implement industry-leading security practices including encryption, access controls, regular security audits, and compliance frameworks (GDPR, HIPAA, PCI-DSS, etc.). Our security team continuously monitors for threats and ensures all solutions meet or exceed regulatory requirements.</p>
+                    </div>
+                </div>
+                
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <span>What is your pricing model?</span>
+                        <span class="faq-toggle">+</span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>We offer flexible pricing models including fixed-price projects, time-and-materials contracts, and subscription-based managed services. During our initial consultation, we'll recommend the most cost-effective approach based on your specific needs and project requirements.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Placeholder -->
+    <section class="section">
+        <div class="container">
+            <div class="map-placeholder">
+                <div class="map-icon">
+                    <i class="fas fa-map-marked-alt"></i>
+                </div>
+                <p>Interactive map location would appear here in a live implementation</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>NovaVista Technologies</h3>
+                    <p>Igniting digital transformation with innovative technology solutions that drive business growth and efficiency.</p>
+                    <div class="social-links">
+                        <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="social-icon"><i class="fab fa-instagram"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="services.html">Services</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Our Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="#cloud">Cloud Solutions</a></li>
+                        <li><a href="#cybersecurity">Cybersecurity</a></li>
+                        <li><a href="#analytics">Data Analytics</a></li>
+                        <li><a href="#digital">Digital Transformation</a></li>
+                        <li><a href="#software">Software Development</a></li>
+                        <li><a href="#managed">Managed IT Services</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Contact Info</h3>
+                    <ul class="footer-links">
+                        <li><i class="fas fa-map-marker-alt" style="color: var(--primary-red); margin-right: 8px;"></i> 123 Innovation Drive, Tech Valley, CA</li>
+                        <li><i class="fas fa-phone" style="color: var(--primary-red); margin-right: 8px;"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-envelope" style="color: var(--primary-red); margin-right: 8px;"></i> info@novavistatech.com</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 NovaVista Technologies. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navMenu.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Header scroll effect
+        const header = document.getElementById('header');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                header.classList.add('scrolled');
+            } else {
+                header.classList.remove('scrolled');
+            }
+        });
+        
+        // Close mobile menu when clicking a link
+        document.querySelectorAll('nav a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+        
+        // FAQ toggle functionality
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', () => {
+                const faqItem = question.parentElement;
+                faqItem.classList.toggle('active');
+                
+                // Close other open FAQ items
+                document.querySelectorAll('.faq-item').forEach(item => {
+                    if (item !== faqItem && item.classList.contains('active')) {
+                        item.classList.remove('active');
+                    }
+                });
+            });
+        });
+        
+        // Contact form submission
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            // Get form values
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const company = document.getElementById('company').value;
+            const phone = document.getElementById('phone').value;
+            const service = document.getElementById('service').value;
+            const message = document.getElementById('message').value;
+            
+            // In a real application, you would send this data to a server
+            // For demo purposes, we'll show an alert
+            alert(`Thank you ${name}! Your message has been received. We'll contact you at ${email} soon regarding your ${service ? service : 'inquiry'}.`);
+            
+            // Reset form
+            contactForm.reset();
+            
+            // Scroll to top of page
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // Form input validation styling
+        const formInputs = document.querySelectorAll('.form-control');
+        formInputs.forEach(input => {
+            input.addEventListener('blur', () => {
+                if (input.value.trim() !== '') {
+                    input.style.borderColor = 'var(--primary-red)';
+                } else if (input.hasAttribute('required')) {
+                    input.style.borderColor = 'var(--primary-red)';
+                }
+            });
+            
+            input.addEventListener('focus', () => {
+                input.style.borderColor = 'var(--primary-red)';
+                input.style.boxShadow = '0 0 0 2px rgba(198, 40, 40, 0.1)';
+            });
+            
+            input.addEventListener('blur', () => {
+                input.style.boxShadow = 'none';
+            });
+        });
+    </script>
+</body>
+</html>
