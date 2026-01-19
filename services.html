@@ -24,6 +24,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
+            cursor: none; /* Hide default cursor - ADDED */
         }
         
         body {
@@ -36,6 +37,41 @@
             -moz-text-size-adjust: 100%;
             -ms-text-size-adjust: 100%;
             text-size-adjust: 100%;
+        }
+        
+        /* Fire cursor element - ADDED */
+        .fire-cursor {
+            position: fixed;
+            width: 24px;
+            height: 36px;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            transition: opacity 0.2s;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 36'%3E%3Cpath fill='%23ff8a00' d='M12,3C8,0,4,5,4,10c0,5,4,10,8,13c4-3,8-8,8-13C20,5,16,0,12,3z'/%3E%3Cpath fill='%23ffc400' d='M12,5c2,0,4,4,4,8c0,4-2,8-4,10c-2-2-4-6-4-10C8,9,10,5,12,5z'/%3E%3Cpath fill='%23c62828' d='M12,8c1,0,2,2,2,5c0,3-1,6-2,7c-1-1-2-4-2-7C10,10,11,8,12,8z'/%3E%3C/svg%3E");
+            background-size: contain;
+            background-repeat: no-repeat;
+            filter: drop-shadow(0 0 8px rgba(255, 138, 0, 0.7));
+        }
+        
+        /* Fire trail effect - ADDED */
+        .fire-trail {
+            position: fixed;
+            width: 12px;
+            height: 18px;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 138, 0, 0.9) 0%, rgba(198, 40, 40, 0.7) 70%, transparent 100%);
+            pointer-events: none;
+            z-index: 9998;
+            transform: translate(-50%, -50%);
+            opacity: 0;
+            box-shadow: 0 0 15px rgba(255, 138, 0, 0.6);
+        }
+        
+        /* Restore default cursor for interactive elements - ADDED */
+        a, button, input, textarea, select, .cta-button, .mobile-menu-btn {
+            cursor: none !important;
         }
         
         h1, h2, h3, h4, h5 {
@@ -878,6 +914,15 @@
                 min-width: 100%;
                 max-width: 100%;
             }
+            
+            /* Show default cursor on mobile for better UX - ADDED */
+            * {
+                cursor: auto;
+            }
+            
+            .fire-cursor, .fire-trail {
+                display: none;
+            }
         }
         
         @media (max-width: 576px) {
@@ -994,6 +1039,9 @@
     </style>
 </head>
 <body>
+    <!-- Fire cursor elements - ADDED -->
+    <div class="fire-cursor" id="fireCursor"></div>
+    
     <!-- Header & Navigation -->
     <header id="header">
         <div class="container header-container">
@@ -1277,6 +1325,97 @@
     </footer>
 
     <script>
+        // Fire cursor functionality - ADDED FROM INDEX.HTML
+        const fireCursor = document.getElementById('fireCursor');
+        let mouseX = 0;
+        let mouseY = 0;
+        let cursorX = 0;
+        let cursorY = 0;
+        let trail = [];
+        const trailLength = 8;
+        
+        // Initialize trail elements
+        for (let i = 0; i < trailLength; i++) {
+            let trailElement = document.createElement('div');
+            trailElement.className = 'fire-trail';
+            trailElement.style.opacity = 0;
+            document.body.appendChild(trailElement);
+            trail.push({
+                element: trailElement,
+                x: 0,
+                y: 0,
+                opacity: 0
+            });
+        }
+        
+        // Update mouse position
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            fireCursor.style.opacity = '1';
+        });
+        
+        // Hide cursor when mouse leaves window
+        document.addEventListener('mouseleave', () => {
+            fireCursor.style.opacity = '0';
+            trail.forEach(t => {
+                t.element.style.opacity = '0';
+            });
+        });
+        
+        // Show cursor when mouse enters window
+        document.addEventListener('mouseenter', () => {
+            fireCursor.style.opacity = '1';
+        });
+        
+        // Animate cursor and trail
+        function animateCursor() {
+            // Smooth cursor movement
+            cursorX += (mouseX - cursorX) * 0.2;
+            cursorY += (mouseY - cursorY) * 0.2;
+            
+            // Update main fire cursor
+            fireCursor.style.left = cursorX + 'px';
+            fireCursor.style.top = cursorY + 'px';
+            
+            // Animate fire cursor
+            const scale = 1 + 0.1 * Math.sin(Date.now() * 0.01);
+            fireCursor.style.transform = `translate(-50%, -50%) scale(${scale}) rotate(${5 * Math.sin(Date.now() * 0.005)}deg)`;
+            
+            // Update trail
+            for (let i = trailLength - 1; i >= 0; i--) {
+                if (i === 0) {
+                    trail[i].x = cursorX;
+                    trail[i].y = cursorY;
+                } else {
+                    trail[i].x = trail[i-1].x;
+                    trail[i].y = trail[i-1].y;
+                }
+                
+                // Calculate opacity based on position in trail
+                const opacity = 0.8 * (1 - i / trailLength);
+                trail[i].opacity = opacity;
+                
+                // Apply styles to trail element
+                trail[i].element.style.left = trail[i].x + 'px';
+                trail[i].element.style.top = trail[i].y + 'px';
+                trail[i].element.style.opacity = trail[i].opacity;
+                
+                // Scale trail elements
+                const trailScale = 1 - i / (trailLength * 1.5);
+                trail[i].element.style.transform = `translate(-50%, -50%) scale(${trailScale})`;
+                
+                // Add color variation to trail
+                const hue = 15 + i * 2; // Slight color shift through trail
+                trail[i].element.style.background = `radial-gradient(circle, hsla(${hue}, 100%, 60%, 0.9) 0%, hsla(${hue+10}, 100%, 40%, 0.7) 70%, transparent 100%)`;
+            }
+            
+            requestAnimationFrame(animateCursor);
+        }
+        
+        // Start animation
+        animateCursor();
+        
         // Mobile menu toggle
         const mobileMenuBtn = document.getElementById('mobileMenuBtn');
         const navMenu = document.getElementById('navMenu');
@@ -1398,6 +1537,18 @@
                 }
             }, 100);
         });
+        
+        // Hide fire cursor on mobile devices - ADDED FROM INDEX.HTML
+        function isTouchDevice() {
+            return 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+        }
+        
+        if (isTouchDevice()) {
+            fireCursor.style.display = 'none';
+            document.querySelectorAll('.fire-trail').forEach(el => {
+                el.style.display = 'none';
+            });
+        }
     </script>
 </body>
 </html>
